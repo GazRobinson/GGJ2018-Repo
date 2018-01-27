@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b64c71fa63f70b4b815d7510da42e28, type: 3}
+  m_Name: Oasis
+  m_EditorClassIdentifier: 
+  OnHold: 0
+  HangUp: 0
+  baseStep:
+    Dialogue: Ugh, hi DJ <playerinput>, I was wondering if you could play my favourite
+      song, like...
+    Answers:
+    - AnswerText: Could you be a little more specific?
+      Next: 1
+    - AnswerText: Sure thing Pal!
+      Next: 2
+  additionalSteps:
+  - Dialogue: 
+    Answers: []
+  - Dialogue: 
+    Answers: []

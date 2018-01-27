@@ -1,0 +1,8 @@
+id,dialogue,Answer#1,Answer#2,onHold,HangUp,IDReferal
+1,"Ugh, hi DJ <playerinput>, I was wondering if you could play my favourite song...",Could you be a little more specific?,Sure thing Pal!,ALLOWED,ALLOWED,"2,-1"
+2,Like I think it was by a band called Desert Mirage...,I'm still going to need more,Sure thing Pal!,ALLOWED,ALLOWED,"3,-1"
+3,And... I think it was called Incredible Partition,Hmm... I'll see what I've have,Sure thing Pal!,ALLOWED,ALLOWED,"-1,-1"
+,,,,,,
+4,Yo DJ <playerinput> Hit me up with a proper banger! ,You have anything in mind?,Sure thing Pal!,ALLOWED,ALLOWED,
+5,"I'm feeling in a 'dancy' mood, something with a beat",I'm going to need you to go deeper,Sure thing Pal!,ALLOWED,ALLOWED,
+6,"Ok, what about that dude who has long curly hair","I am confined to my audio prison so i have never met this person before, anythng else?",Sure thing Pal!,,DISALLOWED,
