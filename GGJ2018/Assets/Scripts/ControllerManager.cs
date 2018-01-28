@@ -12,8 +12,7 @@ public enum GameMode
 public class ControllerManager : MonoBehaviour {
 
     public GameMode currentGameMode;
-
-    public Transform kQuad;
+    
     public float knobThreshold = 0.2f;
     private float lastKnob = 0f;
     bool scratch = false;
@@ -101,7 +100,6 @@ public class ControllerManager : MonoBehaviour {
                 MusicManager.Instance.ChangeSelection(-1);
             }
             lastKnob = Input.GetAxisRaw("Knob");
-            kQuad.localEulerAngles = new Vector3(0f, 0f, (lastKnob+1f) * 180f);
         }
 
         if (Input.GetButtonDown("A") && MusicManager.Instance.currentSong == null)
@@ -116,7 +114,14 @@ public class ControllerManager : MonoBehaviour {
 
     private void TelephoneUpdate()
     {
-
+        if (Input.GetButtonDown("A"))
+            ChoiceController.Instance.SelectChoice(Choice.ANSWER2);
+        if (Input.GetButtonDown("Y"))
+            ChoiceController.Instance.SelectChoice(Choice.ANSWER1);
+        if (Input.GetButtonDown("B"))
+            ChoiceController.Instance.SelectChoice(Choice.HANGUP);
+        if (Input.GetButtonDown("X"))
+            ChoiceController.Instance.SelectChoice(Choice.HOLD);
     }
 
     private void ChangeMode(float cfVal)
@@ -127,7 +132,7 @@ public class ControllerManager : MonoBehaviour {
             next = GameMode.NONE;
         }
         else {
-            next = cfVal > 0 ? GameMode.MUSIC : GameMode.TELEPHONE;
+            next = cfVal < 0 ? GameMode.MUSIC : GameMode.TELEPHONE;
         }
 
         if(next != currentGameMode)
@@ -141,7 +146,18 @@ public class ControllerManager : MonoBehaviour {
     }
     private void EnterMode()
     {
-        
+        CameraController.Instance.ChangeView(currentGameMode);
+        switch (currentGameMode)
+        {
+            case GameMode.NONE:
+                break;
+            case GameMode.MUSIC:
+                break;
+            case GameMode.TELEPHONE:
+                break;
+            default:
+                break;
+        }
     }
     private void ExitCurrentMode()
     {

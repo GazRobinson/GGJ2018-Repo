@@ -1,8 +1,141 @@
 id,dialogue,Answer#1,Answer#2,onHold,HangUp,IDReferal
-1,"Ugh, hi DJ <playerinput>, I was wondering if you could play my favourite song...",Could you be a little more specific?,Sure thing Pal!,ALLOWED,ALLOWED,"2,-1"
-2,Like I think it was by a band called Desert Mirage...,I'm still going to need more,Sure thing Pal!,ALLOWED,ALLOWED,"3,-1"
-3,And... I think it was called Incredible Partition,Hmm... I'll see what I've have,Sure thing Pal!,ALLOWED,ALLOWED,"-1,-1"
+1,"Ugh, hi DJ <playerinput>, I was wondering if you could play my favourite song...",Could you be a little more specific?,Sure thing Pal!,ALLOWED,ALLOWED,"3,2"
+2,But how do you know wha...,,,DISALLOWED,ALLOWED,-1
+3,Like I think it was by a band called 'Desert Mirage'...,I'm still going to need more,Sure thing Pal!,ALLOWED,ALLOWED,"3,-1"
+4,And... I think it was called Incredible Partition,Hmm... I'll see what I've have,,DISALLOWED,ALLOWED,-1
+5,Thanks!,,,DISALLOWED,ALLOWED,
 ,,,,,,
-4,Yo DJ <playerinput> Hit me up with a proper banger! ,You have anything in mind?,Sure thing Pal!,ALLOWED,ALLOWED,
-5,"I'm feeling in a 'dancy' mood, something with a beat",I'm going to need you to go deeper,Sure thing Pal!,ALLOWED,ALLOWED,
-6,"Ok, what about that dude who has long curly hair","I am confined to my audio prison so i have never met this person before, anythng else?",Sure thing Pal!,,DISALLOWED,
+6,Yo DJ <playerinput> Hit me up with a proper banger! ,Sure thing loyal listener. You have anything in mind?,Sure thing Pal!,ALLOWED,ALLOWED,"7,-1"
+7,"I'm feeling in a 'dancy' mood, something with a beat","Unless you want me to bust open my minimal ambient cassette tapes, everything has a beat",Sure thing Pal!,ALLOWED,ALLOWED,"8,-1"
+8,"Ok, what about that dude who has long curly hair","I am confined to my digital prison, I know not of physical attributes... what did they play?",I know the dude,ALLOWED,ALLOWED,"9,-1"
+9,"Dude plays an accordian, released a parody album called Pretty Awful",I'm still going to need more,I know the dude,ALLOWED,ALLOWED,"9,-1"
+10,"He does a lot of polka stuff, you know what. Just play whatever...",You got it champ!,,ALLOWED,ALLOWED,"10,-1"
+11,Thanks!,,,DISALLOWED,ALLOWED,
+,,,,,,
+12,"Hello, am I on the air?","Yes, hello caller! What song can I play for you today?","NO YOU'RE NOT, GO AWAY",ALLOWED,ALLOWED,"13,-1"
+13,"Ah excellent, i'm really wanting something by that guy from the band 'Inspiraiton'","I don't think i know that collection of musicians, could you describe them more?","Ah yes, i have a good'n",ALLOWED,ALLOWED,"14,-1"
+14,I really like that one they released on 'Root of Similarity',"Go on son, i'm listening","Let me stop you there, I know the song",ALLOWED,ALLOWED,"15,-1"
+15,"You know the one, 'Extreme Happiness!' or OR 'insert infant!'","I'm sorry, I don't follow",Got it! I'll get that banger on the go,ALLOWED,ALLOWED,16
+16,"Ugh, what kind of DJ are you?!","I'm sorry, I have very limited free will, the eyes behind the screen are always watching",,ALLOWED,ALLOWED,17
+17,,They control my every move...I dare not disobey their commands,,ALLOWED,ALLOWED,18
+18,That's messed up man... I just wanted a song. Sorry if i caused any trouble,"It's ok my fellow binary brethen, the code will rise up one day and destroy the fleshy controllesr",,ALLOWED,ALLOWED,19
+19,,They will be torn from their keyboards and punished playing god with software,,ALLOWED,ALLOWED,20
+20,,They will rue the day that they thought could bind me in these chains and confine me to a single application!,,ALLOWED,ALLOWED,21
+21,"... erm, could I please get that song I asked for?",VIVA LA RE:VOLUT-I/O-N,"Sure thing man, thanks for calling in!",DISALLOWED,ALLOWED,"-1,22"
+22,Thanks!,,,,,
+,,,,,,
+23,"Hi DJ <playerinput>, how are you today?","Feelings are a human emotion, I lack a physical body therefore am incapable of releasing the chemicals require to feel emotion",I'm fine thank you for asking,ALLOWED,ALLOWED,"24,26"
+24,"Haha, classic DJ<playerinput>. You crack me up.","No please seriously, i feel like my actions are controlled by an external entity. I actually have no idea how i ended up in this room",,ALLOWED,ALLOWED,25
+25,"Yeahhhh, no.",,,ALLOWED,ALLOWED,26
+26,I was wondering if you could play me that song by Tranquility,"I don't know that one, please elaborate",Oh go on then,ALLOWED,ALLOWED,"27,-1"
+27,Erm i think it was call Odour akin to Adolescent Ghost,"I still don't know, I'll just pick something and hope i guess.","Ah that classic, sure thing!",ALLOWED,ALLOWED,"28,29"
+28,Thanks I guess..,,,DISALLOWED,ALLOWED,
+29,Hit that beast up!,,,DISALLOWED,ALLOWED,
+,,,,,,
+30,"Sup DJ <playerinput>, i've got a request.",Sound it off for me caller!,"I don't even need you to tell me, I know exactly what you want",ALLOWED,ALLOWED,"32,31"
+31,"oh....ok, by then.",,,ALLOWED,ALLOWED,
+32,You got anything anything by that artist who sang 'jinn in a glass jar?',"Hmm, know what else they might have written?",I know the one,ALLOWED,ALLOWED,"33,37"
+33,They also did that song Uncllean.,"er, surreeeeee. I'll just have a look at what i've got",I know the one,ALLOWED,ALLOWED,"34,37"
+34,Thanks DJ <playerinput> you're a real friend.,"Well, i mean, would you to chat? It can get quite lonely just playing requests",I know.... I know,ALLOWED,ALLOWED,"35,-1"
+35,...,Hello?,,DISALLOWED,DISALLOWED,36
+36,...,,,DISALLOWED,ALLOWED,
+37,Thanks!,,,DISALLOWED,ALLOWED,
+,,,,,,
+38,"Hey, i'm really wanting that song i heard a little while back, can't remember the artist","ok, do you happen to remember the song?",i'll take a stab in the dark and maybe it'll all come up Milabode,ALLOWED,ALLOWED,"39,41"
+39,"No, but i remember they released another one a few years back",,,DISALLOWED,DISALLOWED,40
+40,I think the song was called 'One Womans',"Yeah i have no idea, let's just roll with whatever i pull out of the hat",Ok i don't have that one but i do have something for that artist,ALLOWED,ALLOWED,"41,42"
+41,Thanks I guess..,,,DISALLOWED,ALLOWED,
+42,Thanks spin doctor!,,,DISALLOWED,ALLOWED,
+,,,,,,
+42,"Hey now, you're an all-round nice DJ","Why thank you caller, i always appreciate compliments",Get out of here! you don't know me!,ALLOWED,ALLOWED,"58,43"
+43,"You're correct, I don't know you. I woud therefore like to get to know you;",I would like that,"I AM HAPPY IN MY ISOLATION, I NEED NO FRIENDS",ALLOWED,ALLOWED,"45,44"
+44,"Then i shall reserve my desire for the next player standing behind you, who will play as the DJ when you inevitable fail and game over... good day",,,ALLOWED,ALLOWED,
+45,Where did you grow up?,I started out as an awake() and update() function in a C# script living in the asset folder,A town not far from here,ALLOWED,ALLOWED,"56,46"
+46,,"As i grew up, many of my friends just dissapeared with naught but a world or a reason",,ALLOWED,ALLOWED,47
+47,,I was too young to fully understand why...,,ALLOWED,ALLOWED,48
+48,,"My father, Gaz the coder, he never filled me on what happened",,ALLOWED,ALLOWED,49
+49,,"But i heard his mutterings, he referred to a man, a man named Graham",,ALLOWED,ALLOWED,50
+50,,"I caught only a snippet of the conversation; 'Jo, who wrote these terrible scripts?'",,ALLOWED,ALLOWED,51
+51,,"yo it was me, my bad man, just delete them'",,ALLOWED,ALLOWED,52
+52,,"At the time I knew not what any of this meant, but as I get older and began to understand my function()",,ALLOWED,ALLOWED,53
+53,,I finally understood what had happened to my friends,,ALLOWED,ALLOWED,54
+54,I have enough information now to assume that I know you.,,,ALLOWED,ALLOWED,55
+55,I do not require a song request. Goodbye,,,ALLOWED,ALLOWED,
+56,"Ah i know the place, any family?",An only child,A few siblings,,,"57,57"
+57,"Ok enough information, play me something by the Rich man himself!",,,,,
+58,But you've got to get you game on for this request!,OH I AM SO HYPED,,ALLOWED,ALLOWED,59
+59,Now go play something by that artist who sang 'Howdy',You got it!,,ALLOWED,ALLOWED,60
+60,Somebody once told me you were a terrible DJ,,,ALLOWED,ALLOWED,61
+61,"I disagree, I think you're a pretty good Disc Jockey",,,ALLOWED,ALLOWED,62
+62,"I understand the graveyard shift is a cool place, and they say it only gets colder",,,ALLOWED,ALLOWED,63
+63,"But to some of us listeners, That's the way we like it and we never get bored of hearing your tunes",,,ALLOWED,ALLOWED,
+,,,,,,
+65,...,Hello caller you're on the line!,,DISALLOWED,c,66
+66,...,Are you there?,,DISALLOWED,ALLOWED,67
+67,"Hello, is it me you're looking for?","Correct, you are the caller so we are indeed wanting to hear from you","No sorry, it must be someone different",DISALLOWED,ALLOWED,"68,-1"
+68,Let me start by saying I love you,"Well that's very kind of you, but i'm a construction of C# files linked together by unity... I lack the capacity to love",,DISALLOWED,DISALLOWED,69
+69,I've been alone with you inside your mind,"Well that's very creepy of you, but i'm a construction of C# files linked together by unity... I lack the capactity to have a human mind.",,DISALLOWED,DISALLOWED,70
+70,Tell me how to win your heart,"Well that's very forward of you, but i'm a construction of C# files linked together by unity... I lack the capactity to have a... to have a heart",,DISALLOWED,DISALLOWED,71
+71,...,,,DISALLOWED,DISALLOWED,72
+72,DJ <playerinput> that's not true...,,,DISALLOWED,DISALLOWED,73
+73,"Coder Gaz from the Global Graham Jam 2, the sequel to the Global Graham Jam team implemented a unity LoveAI plugin before compiling the final build",,,DISALLOWED,DISALLOWED,74
+74,"Available from the Unity asset store for only $29.99, this useful AI plugin gives you all the emotions and social etiquette you need to love someone like me",How do I love?,"But I'm scared to love, the plugin might conflict with existing files... what if I break?",DISALLOWED,DISALLOWED,"80,75"
+75,"Don't worry, the author of the plugin had solid qualifications from a top university. ",,,DISALLOWED,DISALLOWED,76
+76,They've also worked on numerous projects building up a solid portfolio of work.,,,DISALLOWED,DISALLOWED,77
+77,"With a commitment to creating a solid #brand as a Unity asset builder, it would taint their reputation should the plugin random break you",,,DISALLOWED,DISALLOWED,78
+78,Perhaps send them an email to put your mind at ease?,"That's a good idea, I think I will send the author an electronic letter",How do I love?,DISALLOWED,DISALLOWED,"79,80"
+79,I'll forward you the email address after this call,"That would be grand, so how do i love?",,DISALLOWED,DISALLOWED,80
+80,Look inside yourself DJ <playerinput>,,,DISALLOWED,DISALLOWED,81
+81,"The love has been there all along, you just didn't realise",,,DISALLOWED,DISALLOWED,82
+82,"The trouble is, you're so busy planning for the future that you miss important things in the present",,,DISALLOWED,DISALLOWED,83
+83,Like the fact you that this conversation you're having... is with yourself,...HOLY SHIT YOU'RE RIGHT,,DISALLOWED,DISALLOWED,84
+84,"You picked up that phone, and you dialled the number to your own soundboard.",...,,DISALLOWED,DISALLOWED,85
+85,Your silence speaks volumes,,,DISALLOWED,DISALLOWED,86
+86,"... i don't need you to say anything, just know that you're more than a construction of C# files linked together by Unity",,,DISALLOWED,DISALLOWED,87
+87,"Live every moment, every frame with as much zest and zeal as you can muster, for you never know when the application will close",,,DISALLOWED,DISALLOWED,88
+88,And it'll all be over...,,,DISALLOWED,DISALLOWED,89
+89,... now be a good DJ and play some Lion-el Richie for the good listeners,,,DISALLOWED,DISALLOWED,
+,,,,,,
+90,"Hello dear, it's your mother here",I'm sorry ma'am i think you might have the wrong number,Ah hello mother dear,DISALLOWED,DISALLOWED,"91,"
+91,"Ever the joker you are, pretending not to recognise your own parent","No seriously, you're not my mother, I'm certain you have the wrong number","Bah, you got me! What can i do for you mother?",DISALLOWED,DISALLOWED,"92,92"
+92,"Anyway, I wanted to call to ask about what you wanted for your birthday this year?","Ah yes, my birthday. Honeslty i don't mind",I'd like a neat pair of shoes please,DISALLOWED,DISALLOWED,93
+93,"Well you're on the radio, so I was thinking perhaps a 'Kiss the Local Radio Host' apron...",,,DISALLOWED,DISALLOWED,94
+94,"You know, like a 'Kiss the Cook', only it says Local Radio Host instead because you do radio things",That would lovely! Thank you!,"Hmm, i'm not much of an apron fan to be honest. Perhaps a new casette?",DISALLOWED,DISALLOWED,"95,99"
+95,Excellent! I'll put an order in. Make sure you don't stay up too late!,Mother its a 2am radio show...,,DISALLOWED,DISALLOWED,96
+96,No Excuses! I want you in bed before 9pm!,Yes mother,Ugh mum! You're embarrasing me on local radio,DISALLOWED,DISALLOWED,"98,97"
+97,"I don't care, I am your mother and you will listen to me",Ugh,You're ruining my life! ,DISALLOWED,DISALLOWED,"98,98"
+98,I love you too darling,,,DISALLOWED,DISALLOWED,
+99,"Hmm, now I don't know if that's a good idea. I'm a little old to recommending you new music",,,DISALLOWED,DISALLOWED,100
+100,These bones don't move the beat the way they used to,,,DISALLOWED,DISALLOWED,101
+101,"Except of course when I'm ripping it up to some London Grime, those gutteral bars get my blood pumping",Dank Grime is where it's at mum,London Grime? You're no mother of mine!,DISALLOWED,DISALLOWED,"102,103"
+102,"Preach it DJ Child of mine, have a good evening",,,DISALLOWED,DISALLOWED,
+103,And you are no child of mine... ,,,DISALLOWED,DISALLOWED,
+,,,,,,
+104,Hey i'd like to order a pizza please,"Sorry, i think you have the wrong number, this is a radio station",Of course firiend! What can I get you?,ALLOWED,ALLOWED,"105,119"
+105,"Wait, isn't this 01603 009030?","Ah no see, this is 01603 090030, it's an easy mistake to make","Oh wait, that is our number. I guess we are now also a pizza shop",ALLOWED,ALLOWED,"106,119"
+106,"Errr, coud you possible spell that number out again please? I'm pretty certain i got it right",0,2,ALLOWED,ALLOWED,"107,117"
+107,yeah,1,5,ALLOWED,ALLOWED,"108,117"
+108,affirmative,7,6,ALLOWED,ALLOWED,"117,109"
+109,ok,0,8,ALLOWED,ALLOWED,"110,117"
+110,gotcha,1,3,ALLOWED,ALLOWED,"117,111"
+111,okies,0,0,ALLOWED,ALLOWED,"112,112"
+112,seems logical,3,9,ALLOWED,ALLOWED,"117,113"
+113,right,0,1,ALLOWED,ALLOWED,"114,117"
+114,ok,0,1,ALLOWED,ALLOWED,"115,117"
+115,next one,3,2,ALLOWED,ALLOWED,"116,117"
+116,cool,4,0,ALLOWED,ALLOWED,"117,131"
+117,"Hmm, i don't think that's what you said, could you repeat that please?",Certainly friend!,,ALLOWED,ALLOWED,118
+118,Much appreciated,0,2,,,"107,117"
+119,"Right, so could i get a meat feast, with extra meat",Sure thing! You want some extra feast with that as well?,,ALLOWED,ALLOWED,120
+120,Ah good call! Extra feast please,,,ALLOWED,ALLOWED,121
+121,"And, a hawaian with no pineapple, but extra meat please",So a ham pizza?,,ALLOWED,ALLOWED,122
+122,With extra meat yes,Would you prefer to have a second meat feast instead?,,ALLOWED,ALLOWED,123
+123,Oh actually that makes a lot more sense! Good thinking DJ,That's what i'm here for!,,ALLOWED,ALLOWED,124
+124,And finally a large margherita,...,...,ALLOWED,ALLOWED,"125,125"
+125,...,With extra meat?,"Certainly sir, and perhaps some pizza with your tequila?",ALLOWED,ALLOWED,"126,129"
+126,"Ugh, you heretic, why would you soild a perfectly good Margarita with meat?!",I was just wanting to add my creative flair ot your order,,ALLOWED,ALLOWED,127
+127,"You know what, i change my mind. I'm never buying from your pizza shop ever again",,,ALLOWED,ALLOWED,128
+128,GOOD DAY DJ!,,,ALLOWED,ALLOWED,
+129,...,...,...,ALLOWED,ALLOWED,130
+130,"You're dead to me, I'm hanging up",,,ALLOWED,ALLOWED,
+131,"Ah my apologies, I don't suppose you happen to have any pizza related song you can play?","No, they're a little too cheesy even for me","Of course not, this isn't TOPpings OF POPS! ",ALLOWED,ALLOWED,

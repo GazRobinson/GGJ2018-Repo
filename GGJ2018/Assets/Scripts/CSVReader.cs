@@ -57,6 +57,14 @@ public static CSVReader Instance;
     
 public List<RadioDataStrings> dataStrings = new List<RadioDataStrings>();
     public List<RadioData> finalData;
+    public List<List<RadioDataStrings>> conversations;
+    public List<List<RadioData>> convoData;
+
+    public List<RadioDataStrings> currentstrings;
+    public List<RadioData> currentData;
+    private int convoIndex = 0;
+
+
     // Use this for initialization
     void Awake () {
         Instance = this;
@@ -64,16 +72,34 @@ public List<RadioDataStrings> dataStrings = new List<RadioDataStrings>();
             Load();
         }*/
         dataStrings = StaticLoadStrings();
-        finalData = ParseData(dataStrings);
+        ParseData(conversations);
     }
     
-    
+    public List<RadioData> LoadRandomConvo()
+    {
+        if (convoData.Count > 0)
+        {
+            convoIndex = Random.Range(0, convoData.Count);
+            currentData = convoData[convoIndex];
+            // currentstrings = conversations[convoIndex];
+            convoData.RemoveAt(convoIndex);
+        }
+        else
+        {
+            currentData = null;
+        }
+        return currentData;
+    }
+
     public static List<RadioDataStrings> StaticLoadStrings ( ) {
         TextAsset file = Instance.csvFile; // Resources.Load<TextAsset>( "CaesarTalk" );
         string[] lines = file.text.Split( "\n"[0] );
         string[] firstLine = lines[0].Split(',');
         int argCount = Instance.argCount;
         int lineIndex = 1;
+        Instance.conversations = new List<List<RadioDataStrings>>();
+
+        //List<RadioDataStrings> current = new List<RadioDataStrings>();
 
         List < RadioDataStrings > data = new List<RadioDataStrings>();
 
@@ -82,7 +108,7 @@ public List<RadioDataStrings> dataStrings = new List<RadioDataStrings>();
             string currentLine = lines[lineIndex];
             int loopCount = 0;
 
-            Debug.Log(currentLine.Length);
+       //     Debug.Log(currentLine.Length);
             while ( vars.Count < argCount && loopCount < 1000 ) {
                // Debug.Log("LNGTH: " + currentLine.Length +", " + currentLine);
                 loopCount++;
@@ -132,63 +158,98 @@ public List<RadioDataStrings> dataStrings = new List<RadioDataStrings>();
                 }
             }
             if ( loopCount < 1000 ) {
-                if (vars.Count > 5 && vars[0].Length > 0) {
-                    data.Add(new RadioDataStrings(vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6]));
-					Instance.dataStrings.Add(new RadioDataStrings(vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6]));
+                if (vars[0].Length < 1)
+                {
+                    //NEXT CONVO
+                    //Debug.Log("New convo");
+                   Instance.conversations.Add(data);
+                    data = new List<RadioDataStrings>();
+                }
+                else
+                {
+                    if (vars.Count > 5 && vars[0].Length > 0)
+                    {
+                        data.Add(new RadioDataStrings(vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6]));
+                        Instance.dataStrings.Add(new RadioDataStrings(vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6]));
+                    }
                 }
                 lineIndex++;
             } else {
                 Debug.LogError( "Inifinite loop, trying to end gracefully." );
             }
         }
-		
+
+        Instance.conversations.Add(data);
+
         return data;
     }
 
-    public List<RadioData> ParseData(List<RadioDataStrings> strings){
-        List<RadioData> data = new List<RadioData>();
-        List<string> answers = new List<string>();
+    public List<List<RadioData>> ParseData(List<List<RadioDataStrings>> dataString)
+    {
+        Instance.convoData = new List<List<RadioData>>();
+        int initialID = -2;
+        foreach (List<RadioDataStrings> strings in dataString)
+        {
+            List<RadioData> data = new List<RadioData>();
+            List<string> answers = new List<string>();
 
-        for (int i = 0; i < strings.Count; i++)
-        {
-        answers.Clear();
-		if(strings[i].Answer1.Length>0){
-            answers.Add(strings[i].Answer1);
-        }
-		if(strings[i].Answer2.Length>0){
-            answers.Add(strings[i].Answer2);
-        }
-        if (strings[i].OnHold.Length > 0)
-        {
-            answers.Add(strings[i].OnHold);
-        }
-        if (strings[i].HangUp.Length>0){
-            answers.Add(strings[i].HangUp);
-        }
-        string[] referral = strings[i].Referral.Split(',');
-        int[] refInt = new int[referral.Length];
-            for (int j = 0; j < referral.Length; j++)
+            for (int i = 0; i < strings.Count; i++)
             {
-                int parseVal = -1;
-                if( int.TryParse(referral[j], out parseVal))
+                if(i == 0)
                 {
-                    refInt[j] = parseVal;
+                    initialID = int.Parse(strings[i].ID);
+                }
+                answers.Clear();
+                if (strings[i].Answer1.Length > 0)
+                {
+                    answers.Add(strings[i].Answer1);
                 }
                 else
                 {
-                Debug.LogWarning("Failed to parse Referral");
-                    refInt[j] = -2;
+                    answers.Add("");
                 }
-            }
+                if (strings[i].Answer2.Length > 0)
+                {
+                    answers.Add(strings[i].Answer2);
+                }
+                else
+                {
+                    answers.Add("");
+                }
+                /*  if (strings[i].OnHold.Length > 0)
+                  {
+                      answers.Add(strings[i].OnHold);
+                  }
+                  if (strings[i].HangUp.Length > 0)
+                  {
+                      answers.Add(strings[i].HangUp);
+                  }*/
+                string[] referral = strings[i].Referral.Split(',');
+                int[] refInt = new int[referral.Length];
+                for (int j = 0; j < referral.Length; j++)
+                {
+                    int parseVal = -1;
+                    if (int.TryParse(referral[j], out parseVal))
+                    {
+                        refInt[j] = parseVal - initialID;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Failed to parse Referral");
+                        refInt[j] = -2;
+                    }
+                }
 
-            data.Add(new RadioData(int.Parse(strings[i].ID),
-            strings[i].Question,
-			answers.ToArray(),
-            strings[i].OnHold.Length < 1 || strings[i].OnHold == "ALLOWED",
-            strings[i].HangUp.Length < 1 || strings[i].HangUp == "ALLOWED",
-            refInt));
+                data.Add(new RadioData(int.Parse(strings[i].ID) - initialID,
+                strings[i].Question,
+                answers.ToArray(),
+                strings[i].OnHold.Length < 1 || strings[i].OnHold == "ALLOWED",
+                strings[i].HangUp.Length < 1 || strings[i].HangUp == "ALLOWED",
+                refInt));
+            }
+            Instance.convoData.Add(data);
         }
-        return data;
+    return Instance.convoData;
     }
      
 }
