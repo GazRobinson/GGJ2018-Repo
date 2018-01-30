@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44639695, g: 0.49110824, b: 0.54726255, a: 1}
+  m_IndirectSpecularColor: {r: 0.44639707, g: 0.49110836, b: 0.54726285, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -144,6 +144,8 @@ MonoBehaviour:
   knobThreshold: 0.5
   crossfadeSound: {fileID: 8300000, guid: 41c92b7189c09a4428d47776815f588c, type: 3}
   controls: {fileID: 1454715062}
+  is_a_DJ: 0
+  has_numpad: 0
 --- !u!4 &62896980
 Transform:
   m_ObjectHideFlags: 0
@@ -173,7 +175,6 @@ GameObject:
   - component: {fileID: 81708036}
   - component: {fileID: 81708035}
   - component: {fileID: 81708034}
-  - component: {fileID: 81708033}
   m_Layer: 0
   m_Name: PerspectiveCam
   m_TagString: MainCamera
@@ -181,18 +182,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &81708033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 81708032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35df66d88918eb94a94e30f8428f898e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debugOut: 0
 --- !u!81 &81708034
 AudioListener:
   m_ObjectHideFlags: 0
@@ -678,7 +667,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000054891992, y: 49.34248}
+  m_AnchoredPosition: {x: -0.000054891992, y: 0.00009321239}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &423343964
@@ -1569,7 +1558,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 573348723}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.8388079
+  m_Size: 0.9997448
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2191,7 +2180,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -2306,7 +2295,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -2386,7 +2375,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -5083,7 +5072,6 @@ GameObject:
   - component: {fileID: 1944267015}
   - component: {fileID: 1944267019}
   - component: {fileID: 1944267018}
-  - component: {fileID: 1944267016}
   m_Layer: 0
   m_Name: OrthoCam
   m_TagString: MainCamera
@@ -5104,18 +5092,6 @@ Transform:
   m_Father: {fileID: 827968190}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1944267016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1944267014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35df66d88918eb94a94e30f8428f898e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debugOut: 0
 --- !u!124 &1944267018
 Behaviour:
   m_ObjectHideFlags: 0

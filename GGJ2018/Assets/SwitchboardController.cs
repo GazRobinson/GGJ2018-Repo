@@ -12,12 +12,16 @@ public class SwitchboardController : MonoBehaviour {
     public AudioClip pickupSound, endCallSound, holdSound;
 
     float nextCall = 0f;
+    private KeyCode[] keys;
 	// Use this for initialization
 	void Awake () {
         Instance = this;
         GetButtons();
         nextCall = Time.time + 5f;
 	}
+    void Start(){
+        keys = ControllerManager.Instance.has_numpad ? KeyboardManager.numPadKeys : KeyboardManager.alphaKeys;
+    }
 
     void GetButtons()
     {
@@ -41,24 +45,11 @@ public class SwitchboardController : MonoBehaviour {
 
     private void DoInput()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad1))
-            AnswerCall(1);
-        if (Input.GetKeyDown(KeyCode.Keypad2))
-            AnswerCall(2);
-        if (Input.GetKeyDown(KeyCode.Keypad3))
-            AnswerCall(3);
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-            AnswerCall(4);
-        if (Input.GetKeyDown(KeyCode.Keypad5))
-            AnswerCall(5);
-        if (Input.GetKeyDown(KeyCode.Keypad6))
-            AnswerCall(6);
-        if (Input.GetKeyDown(KeyCode.Keypad7))
-            AnswerCall(7);
-        if (Input.GetKeyDown(KeyCode.Keypad8))
-            AnswerCall(8);
-        if (Input.GetKeyDown(KeyCode.Keypad9))
-            AnswerCall(9);
+        for (int i = 0; i < 9; i++){
+            if (Input.GetKeyDown(keys[i]))
+                AnswerCall(i+1);
+        }
+
     }
     int currentCall = -1;
     private void AnswerCall(int callNumber)

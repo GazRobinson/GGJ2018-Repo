@@ -8,25 +8,58 @@ public enum GameMode
     MUSIC,
     TELEPHONE
 }
-
+public class KeyboardManager{
+    public static KeyCode[] alphaKeys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
+    public static KeyCode[] numPadKeys = { KeyCode.Keypad1, KeyCode.Keypad2, KeyCode.Keypad3, KeyCode.Keypad4, KeyCode.Keypad5, KeyCode.Keypad6, KeyCode.Keypad7, KeyCode.Keypad8, KeyCode.Keypad9, KeyCode.Keypad0 };
+    public static KeyCode[] topRow = { KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R, KeyCode.T, KeyCode.Y, KeyCode.U, KeyCode.I, KeyCode.O, KeyCode.P};
+}
 public class ControllerManager : MonoBehaviour {
-
+    public static ControllerManager Instance = null;
     public GameMode currentGameMode;
     
     public float knobThreshold = 0.2f;
     public AudioClip crossfadeSound;
     public GameObject controls;
+
+    public bool is_a_DJ = false;
+    public bool has_numpad = false;
+
     private float lastKnob = 0f;
     bool scratch = false;
-	// Use this for initialization
-	void Start () {
-        lastKnob = Input.GetAxisRaw("Knob");
 
+    public Vector2 lastMouse;
+
+    public float ScratchAmount{
+        get{
+            return is_a_DJ ? Input.GetAxisRaw("Vertical") : Input.mouseScrollDelta.y * 0.01f;
+        }
+    }
+
+	// Use this for initialization
+	void Awake () {
+        Instance = this;
+        lastKnob = Input.GetAxisRaw("Knob");
+        lastMouse = Input.mousePosition;
     }
 	
+    void Start(){
+        ChangeMode(-1f);
+    }
+
 	// Update is called once per frame
 	void Update () {
-        ChangeMode(Input.GetAxisRaw("Crossfade"));
+        if (is_a_DJ)
+        {
+            ChangeMode(Input.GetAxisRaw("Crossfade"));
+        }
+        else{
+            if(Input.GetKeyDown(KeyCode.Tab)){
+                if (currentGameMode == GameMode.MUSIC)
+                    ChangeMode(1f);
+                else
+                    ChangeMode(-1f);
+            }
+        }
 
         if (Input.GetButtonDown("Start"))
         {
@@ -52,7 +85,7 @@ public class ControllerManager : MonoBehaviour {
                 break;
         }
 
-        MusicManager.Instance.Scratch(Input.GetAxisRaw("Vertical"), scratch);
+        MusicManager.Instance.Scratch(ScratchAmount, scratch);
     }
     //TODO: fix this, it's really bad
     private void MusicUpdate()
@@ -66,7 +99,7 @@ public class ControllerManager : MonoBehaviour {
         }
         else
         {
-            if (Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.1f)
+            if (Mathf.Abs(ScratchAmount) > 0.1f)
             {
                 MusicManager.Instance.SpinUp();
             }
@@ -85,32 +118,39 @@ public class ControllerManager : MonoBehaviour {
             FunManager.AddFun(4.7f);
             MusicManager.Instance.PlayHorn();
         }
-
-        if (Mathf.Abs(dist) > knobThreshold)
+        if (is_a_DJ)
         {
-            if(dist > 1f)
+            if (Mathf.Abs(dist) > knobThreshold)
             {
-                float t = -1 - lastKnob;
-                float t2 = 1 - thisK;
-                dist = t - t2;
-              //  Debug.Log("Tick down");
-            }
-            else if(dist < -1f)
-            {
-                float t = 1 - lastKnob;
-                float t2 = -1 - thisK;
-                dist = t - t2;
-            }
+                if (dist > 1f)
+                {
+                    float t = -1 - lastKnob;
+                    float t2 = 1 - thisK;
+                    dist = t - t2;
+                    //  Debug.Log("Tick down");
+                }
+                else if (dist < -1f)
+                {
+                    float t = 1 - lastKnob;
+                    float t2 = -1 - thisK;
+                    dist = t - t2;
+                }
 
-            if(dist > 0)
-            {
-                MusicManager.Instance.ChangeSelection(1);
+                if (dist > 0)
+                {
+                    MusicManager.Instance.ChangeSelection(1);
+                }
+                else
+                {
+                    MusicManager.Instance.ChangeSelection(-1);
+                }
+                lastKnob = Input.GetAxisRaw("Knob");
             }
-            else
-            {
+        } else{
+            if (Input.GetKeyDown(KeyCode.UpArrow))
                 MusicManager.Instance.ChangeSelection(-1);
-            }
-            lastKnob = Input.GetAxisRaw("Knob");
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+                MusicManager.Instance.ChangeSelection(1);
         }
 
         if (Input.GetButtonDown("A") && MusicManager.Instance.currentSong == null)
