@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c45d18646442114468069115d321bc56, type: 3}
   m_Name: All Star
   m_EditorClassIdentifier: 
-  audioFile: {fileID: 8300000, guid: a5d20d0a848e072448c0eb1c15c6cdd2, type: 3}
+  audioFile: {fileID: 8300000, guid: 9bb8fbb5027c8234c8848268826ba906, type: 3}
   artist: Smash Mouth
   songTitle: All Star

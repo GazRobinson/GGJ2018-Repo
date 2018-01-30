@@ -5,7 +5,11 @@ using UnityEngine;
 public class SwitchboardController : MonoBehaviour {
     public static SwitchboardController Instance;
     public SwitchboardButton[] buttons = new SwitchboardButton[9];
-    public float MaxWaitTime = 5f;
+    public float MinTimeBetweenCalls = 5f;
+    public float MaxTimeBetweenCalls = 15f;
+    public float maxmimumPatienceTime = 20.0f;
+
+    public AudioClip pickupSound, endCallSound, holdSound;
 
     float nextCall = 0f;
 	// Use this for initialization
@@ -30,7 +34,7 @@ public class SwitchboardController : MonoBehaviour {
         {
             GetCall();
 
-            nextCall = Time.time + 5f;
+            nextCall = Time.time + Random.Range(MinTimeBetweenCalls, MaxTimeBetweenCalls);
         }
         DoInput();
     }
@@ -59,12 +63,14 @@ public class SwitchboardController : MonoBehaviour {
     int currentCall = -1;
     private void AnswerCall(int callNumber)
     {
+        MusicManager.PlayClip(pickupSound);
         currentCall = callNumber - 1;
         buttons[callNumber - 1].Answer();
     }
 
     public void HangUp()
     {
+        MusicManager.PlayClip(endCallSound);
         buttons[currentCall].HangUp();
         currentCall = -1;
     }

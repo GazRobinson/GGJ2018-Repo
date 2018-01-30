@@ -31,11 +31,7 @@ public class ConversationManager : MonoBehaviour {
         rectT.sizeDelta = size;
         Sort();
     }
-    public void GetConvo()
-    {
-       // currentConversation = CSVReader.Instance.LoadRandomConvo();
-    }
-
+    
     public void StartConvo(List<RadioData> newConvo)
     {
         currentConversation = newConvo;
@@ -66,6 +62,7 @@ public class ConversationManager : MonoBehaviour {
     {
         ChoiceController.Instance.Hide();
         SwitchboardController.Instance.HangUp();
+        
     }
     public void Hold()
     {

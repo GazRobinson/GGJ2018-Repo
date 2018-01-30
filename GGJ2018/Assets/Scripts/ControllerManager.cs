@@ -14,6 +14,8 @@ public class ControllerManager : MonoBehaviour {
     public GameMode currentGameMode;
     
     public float knobThreshold = 0.2f;
+    public AudioClip crossfadeSound;
+    public GameObject controls;
     private float lastKnob = 0f;
     bool scratch = false;
 	// Use this for initialization
@@ -25,6 +27,11 @@ public class ControllerManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         ChangeMode(Input.GetAxisRaw("Crossfade"));
+
+        if (Input.GetButtonDown("Start"))
+        {
+            controls.SetActive(!controls.activeSelf);
+        }
 
         UpdateMode();
 	}
@@ -44,6 +51,8 @@ public class ControllerManager : MonoBehaviour {
             default:
                 break;
         }
+
+        MusicManager.Instance.Scratch(Input.GetAxisRaw("Vertical"), scratch);
     }
     //TODO: fix this, it's really bad
     private void MusicUpdate()
@@ -51,9 +60,9 @@ public class ControllerManager : MonoBehaviour {
         float thisK = Input.GetAxisRaw("Knob");
         float dist = thisK - lastKnob;
         scratch = Input.GetButton("X");
+
         if (scratch)
-        {
-            MusicManager.Instance.Scratch(Input.GetAxisRaw("Vertical"));            
+        {          
         }
         else
         {
@@ -70,12 +79,14 @@ public class ControllerManager : MonoBehaviour {
         }
 
 
+        FunManager.AddFun(Time.deltaTime);
         if (Input.GetButtonDown("Y"))
         {
+            FunManager.AddFun(4.7f);
             MusicManager.Instance.PlayHorn();
         }
 
-        if (Mathf.Abs(dist) > 0.4f)
+        if (Mathf.Abs(dist) > knobThreshold)
         {
             if(dist > 1f)
             {
@@ -106,7 +117,7 @@ public class ControllerManager : MonoBehaviour {
         {
             MusicManager.Instance.SelectCurrent();
         }
-        if (Input.GetButtonDown("B") )
+        if (Input.GetButtonDown("B") && !Input.GetButton("X"))
         {
             MusicManager.Instance.StopSong();
         }
@@ -114,22 +125,22 @@ public class ControllerManager : MonoBehaviour {
 
     private void TelephoneUpdate()
     {
-        if (Input.GetButtonDown("A"))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
             ChoiceController.Instance.SelectChoice(Choice.ANSWER2);
-        if (Input.GetButtonDown("Y"))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
             ChoiceController.Instance.SelectChoice(Choice.ANSWER1);
-        if (Input.GetButtonDown("B"))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
             ChoiceController.Instance.SelectChoice(Choice.HANGUP);
-        if (Input.GetButtonDown("X"))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
             ChoiceController.Instance.SelectChoice(Choice.HOLD);
     }
 
     private void ChangeMode(float cfVal)
     {
-        GameMode next = GameMode.NONE;
+        GameMode next = currentGameMode;
         if (cfVal == 0f)
         {
-            next = GameMode.NONE;
+           // next = GameMode.NONE;
         }
         else {
             next = cfVal < 0 ? GameMode.MUSIC : GameMode.TELEPHONE;
@@ -137,6 +148,7 @@ public class ControllerManager : MonoBehaviour {
 
         if(next != currentGameMode)
         {
+            MusicManager.PlayClip(crossfadeSound);
             ExitCurrentMode();
 
             currentGameMode = next;
@@ -161,6 +173,18 @@ public class ControllerManager : MonoBehaviour {
     }
     private void ExitCurrentMode()
     {
+        switch (currentGameMode)
+        {
+            case GameMode.NONE:
+                break;
+            case GameMode.MUSIC:
+                MusicManager.Instance.Unscratch();
+                break;
+            case GameMode.TELEPHONE:
+                break;
+            default:
+                break;
+        }
 
     }
 }

@@ -73,7 +73,7 @@ public class SwitchboardButton : MonoBehaviour {
 
     private void Update()
     {
-        if(state > CallState.NONE && state < CallState.ANSWERED &&  WaitTime > 0.75f * SwitchboardController.Instance.MaxWaitTime)
+        if(state > CallState.NONE && state < CallState.ANSWERED &&  WaitTime > 0.75f * SwitchboardController.Instance.maxmimumPatienceTime)
         {
             spriteRenderer.sprite = warning;
         }

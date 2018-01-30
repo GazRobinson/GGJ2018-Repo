@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c45d18646442114468069115d321bc56, type: 3}
   m_Name: LogicalSong
   m_EditorClassIdentifier: 
-  audioFile: {fileID: 8300000, guid: 0c9323f825cb4a740836cfa898cdb9a2, type: 3}
+  audioFile: {fileID: 8300000, guid: 5d37dd0aa1d8cb345a831587441b6208, type: 3}
   artist: Scooter
   songTitle: The Logical Song

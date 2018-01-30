@@ -10,11 +10,29 @@ public class MusicManager : MonoBehaviour {
     string MusicFolder = "/Music/";
     public AudioSource src;
 
+    public TapeSpinner spinner = null;
+
     public ScriptableSong[] availableSongs;
     public int selectionIndex;
     public ScriptableSong currentSong = null;
     string[] audioFiles;
     public AudioSource horn;
+    public AudioSource scratch;
+    public AudioSource sfx;
+
+    public AudioClip selectTapeSound, ejectTapeSound;
+
+    public static void PlayClip(AudioClip clip, bool setScratch = false)
+    {
+        Instance.sfx.PlayOneShot(clip);
+        if (setScratch)
+        {
+            Instance.scratch.Stop();
+            Instance.scratch.clip = clip;
+            Instance.scratch.Play();
+        }
+    }
+   // public void SetScratch
     IEnumerator LoadSong(string fileName)
     {
         /*  using (var www = new WWW(MusicFolder + fileName))
@@ -65,6 +83,7 @@ public class MusicManager : MonoBehaviour {
     {
         Instance = this;
         availableSongs = Resources.LoadAll<ScriptableSong>("Songs");
+        spinner.RemoveTape();
     }
 
     // Use this for initialization
@@ -91,21 +110,36 @@ public class MusicManager : MonoBehaviour {
 
         src.clip = currentSong.audioFile;
         Debug.Log("Equipped " + src.clip.name);
+        PlayClip(selectTapeSound);
+        spinner.SetTape(CassetteShelf.Instance.GetTex(selectionIndex));
+        src.Play();
     }
     public void StopSong()
     {
         src.Stop();
         src.clip = null;
         currentSong = null;
+        spinner.RemoveTape();
+        PlayClip(ejectTapeSound);
     }
-
-    public void Scratch(float spin)
+    public float scratchFactor = 25f;
+    public void Scratch(float spin, bool onTrack = false)
     {
-        src.pitch = spin * 10f;
+        if (onTrack)
+        {
+            src.pitch = spin * 10f;
+            spinner.RPM = 7500f * spin;
+        }
+        else
+        {
+            scratch.pitch = spin * scratchFactor;
+        }
     }
     public void Unscratch()
     {
         src.pitch = 1f;
+        spinner.RPM = 100f;
+        scratch.pitch = 0f;
     }
 
     public void LoadSong(ScriptableSong newSong)
@@ -125,13 +159,14 @@ public class MusicManager : MonoBehaviour {
             selectionIndex = 0;
         }
         Debug.Log(availableSongs[ selectionIndex].songTitle);
+        CassetteShelf.Instance.SetTape(selectionIndex);
     }
 
     public void SpinUp()
     {
-        if(currentSong != null && src.clip != null && !src.isPlaying)
+       /* if(currentSong != null && src.clip != null && !src.isPlaying)
         {
             src.Play();
-        }
+        }*/
     }
 }

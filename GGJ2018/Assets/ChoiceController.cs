@@ -31,7 +31,7 @@ public class ChoiceController : MonoBehaviour {
         if (answerA.Length > 0)
         {
             answer1.gameObject.SetActive(true);
-            answer1.transform.GetChild(0).GetComponent<Text>().text = answerA;
+            answer1.transform.GetChild(0).GetComponent<Text>().text = answerA.ToUpper();
     }
         else
         {
@@ -48,7 +48,7 @@ public class ChoiceController : MonoBehaviour {
         if (answerB.Length > 0)
         {
             answer2.gameObject.SetActive(true);
-            answer2.transform.GetChild(0).GetComponent<Text>().text = answerB;
+            answer2.transform.GetChild(0).GetComponent<Text>().text = answerB.ToUpper();
         }
         else
         {
