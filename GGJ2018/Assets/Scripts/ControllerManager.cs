@@ -111,11 +111,9 @@ public class ControllerManager : MonoBehaviour {
             MusicManager.Instance.Unscratch();
         }
 
-
-        FunManager.AddFun(Time.deltaTime);
         if (Input.GetButtonDown("Y"))
         {
-            FunManager.AddFun(4.7f);
+            FunManager.AddFun(10.0f);
             MusicManager.Instance.PlayHorn();
         }
         if (is_a_DJ)

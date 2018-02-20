@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
+using System.Linq;
+
+//docs.google.com/feeds/download/spreadsheets/Export?key<FILE_ID>&exportFormat=csv&gid=0
 
 [System.Serializable]
 public struct RadioDataStrings
@@ -65,23 +69,48 @@ public List<RadioDataStrings> dataStrings = new List<RadioDataStrings>();
     private int convoIndex = 0;
 
 
+    IEnumerator DownloadLatest()
+    {
+        //https://docs.google.com/spreadsheets/d/1eNnksFIX2YKiBCWnWxTMPSQe8xmOis5wpwUndE5oavw/edit?usp=sharing
+        UnityWebRequest www = UnityWebRequest.Get("http://docs.google.com/feeds/download/spreadsheets/Export?key=1eNnksFIX2YKiBCWnWxTMPSQe8xmOis5wpwUndE5oavw&exportFormat=csv&gid=0");
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("Download succeeded");
+            downloadSuccess = true;
+            fullFileText = www.downloadHandler.text;
+        }
+    }
+    string fullFileText = "";
+    bool downloadSuccess = false;
     // Use this for initialization
     void Awake () {
         Instance = this;
        /* if ( overrideLanguage ) {
             Load();
         }*/
-        dataStrings = StaticLoadStrings();
-        ParseData(conversations);
     }
-    
+    private IEnumerator Start()
+    {
+        yield return StartCoroutine(DownloadLatest());
+
+        if(!downloadSuccess){
+            fullFileText = csvFile.text;
+        }
+        string[,] stringArray = SplitCsvGrid(fullFileText);
+        BuildData(stringArray);
+    }
     public List<RadioData> LoadRandomConvo()
     {
         if (convoData.Count > 0)
         {
             convoIndex = Random.Range(0, convoData.Count);
             currentData = convoData[convoIndex];
-            // currentstrings = conversations[convoIndex];
             convoData.RemoveAt(convoIndex);
         }
         else
@@ -91,165 +120,81 @@ public List<RadioDataStrings> dataStrings = new List<RadioDataStrings>();
         return currentData;
     }
 
-    public static List<RadioDataStrings> StaticLoadStrings ( ) {
-        TextAsset file = Instance.csvFile; // Resources.Load<TextAsset>( "CaesarTalk" );
-        string[] lines = file.text.Split( "\n"[0] );
-        string[] firstLine = lines[0].Split(',');
-        int argCount = Instance.argCount;
-        int lineIndex = 1;
-        Instance.conversations = new List<List<RadioDataStrings>>();
-
-        //List<RadioDataStrings> current = new List<RadioDataStrings>();
-
-        List < RadioDataStrings > data = new List<RadioDataStrings>();
-
-        while ( lineIndex < lines.Length ) {
-            List<string> vars = new List<string>();
-            string currentLine = lines[lineIndex];
-            int loopCount = 0;
-
-       //     Debug.Log(currentLine.Length);
-            while ( vars.Count < argCount && loopCount < 1000 ) {
-               // Debug.Log("LNGTH: " + currentLine.Length +", " + currentLine);
-                loopCount++;
-
-                if ( currentLine.Contains( "\"" ) ) {
-
-                    //The line contains either a comma or a new line character
-                    int quoteIndex = currentLine.IndexOf("\"");
-
-                    //Get all complete variables before the opening quote
-                    string[] preQuote = currentLine.Substring(0, quoteIndex).Split(',');
-                    for ( int i = 0; i < preQuote.Length - 1; i++ ) {
-                        vars.Add( preQuote[i] );
-                    }
-
-                    //Add the next line and search for the closing quote
-                    bool hasQuote=currentLine.Substring( quoteIndex+1 ).Contains("\"");
-                    currentLine = currentLine.Substring( quoteIndex + 1 );
-                    while ( !hasQuote ) {
-                        Debug.Log("Don't have a quote");
-                        currentLine += "\n" + lines[++lineIndex];
-                        hasQuote = currentLine.Contains( "\"" );
-
-                    }
-
-                    int secondQuote = currentLine.Substring(1).IndexOf('"');
-                    string finalVar = "\"" + currentLine.Substring( 0, secondQuote + 2 );
-                    finalVar = finalVar.Remove( 0, 1 );
-                    finalVar = finalVar.Remove( finalVar.Length-1, 1 );
-                    vars.Add( finalVar );
-                    if (secondQuote + 3 < currentLine.Length)
-                    {
-                        currentLine = currentLine.Substring(secondQuote + 3);
-                    }
-                    //Set up the next line, minus the end of the previous variable
-                 /*   if ( lineIndex < lines.Length - 1 ) {
-                        
-                    } else{
-                        Debug.Log("FUCK");
-                        currentLine = currentLine.Substring( secondQuote + 3 );
-                        //lineIndex++;
-					}*/
-
-                } else {
-                    string[] variables = currentLine.Split(',');
-                    vars.AddRange( variables );
-                }
-            }
-            if ( loopCount < 1000 ) {
-                if (vars[0].Length < 1)
-                {
-                    //NEXT CONVO
-                    //Debug.Log("New convo");
-                   Instance.conversations.Add(data);
-                    data = new List<RadioDataStrings>();
-                }
-                else
-                {
-                    if (vars.Count > 5 && vars[0].Length > 0)
-                    {
-                        data.Add(new RadioDataStrings(vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6]));
-                        Instance.dataStrings.Add(new RadioDataStrings(vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6]));
-                    }
-                }
-                lineIndex++;
-            } else {
-                Debug.LogError( "Inifinite loop, trying to end gracefully." );
-            }
-        }
-
-        Instance.conversations.Add(data);
-
-        return data;
-    }
-
-    public List<List<RadioData>> ParseData(List<List<RadioDataStrings>> dataString)
+    // splits a CSV file into a 2D string array
+    static public string[,] SplitCsvGrid(string csvText)
     {
-        Instance.convoData = new List<List<RadioData>>();
-        int initialID = -2;
-        foreach (List<RadioDataStrings> strings in dataString)
+        string[] lines = csvText.Split("\n"[0]);
+        // finds the max width of row
+        int width = 0;
+        for (int i = 0; i < lines.Length; i++)
         {
-            List<RadioData> data = new List<RadioData>();
-            List<string> answers = new List<string>();
+            string[] row = SplitCsvLine(lines[i]);
+            width = Mathf.Max(width, row.Length);
 
-            for (int i = 0; i < strings.Count; i++)
-            {
-                if(i == 0)
-                {
-                    initialID = int.Parse(strings[i].ID);
-                }
-                answers.Clear();
-                if (strings[i].Answer1.Length > 0)
-                {
-                    answers.Add(strings[i].Answer1);
-                }
-                else
-                {
-                    answers.Add("");
-                }
-                if (strings[i].Answer2.Length > 0)
-                {
-                    answers.Add(strings[i].Answer2);
-                }
-                else
-                {
-                    answers.Add("");
-                }
-                /*  if (strings[i].OnHold.Length > 0)
-                  {
-                      answers.Add(strings[i].OnHold);
-                  }
-                  if (strings[i].HangUp.Length > 0)
-                  {
-                      answers.Add(strings[i].HangUp);
-                  }*/
-                string[] referral = strings[i].Referral.Split(',');
-                int[] refInt = new int[referral.Length];
-                for (int j = 0; j < referral.Length; j++)
-                {
-                    int parseVal = -1;
-                    if (int.TryParse(referral[j], out parseVal))
-                    {
-                        refInt[j] = parseVal - initialID;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Failed to parse Referral");
-                        refInt[j] = -2;
-                    }
-                }
-
-                data.Add(new RadioData(int.Parse(strings[i].ID) - initialID,
-                strings[i].Question,
-                answers.ToArray(),
-                strings[i].OnHold.Length < 1 || strings[i].OnHold == "ALLOWED",
-                strings[i].HangUp.Length < 1 || strings[i].HangUp == "ALLOWED",
-                refInt));
-            }
-            Instance.convoData.Add(data);
         }
-    return Instance.convoData;
+
+        // creates new 2D string grid to output to
+        string[,] outputGrid = new string[width, lines.Length];
+        for (int y = 0; y < lines.Length; y++)
+        {
+            string[] row = SplitCsvLine(lines[y]);
+            for (int x = 0; x < row.Length; x++)
+            {
+                outputGrid[x, y] = row[x];
+
+                // This line was to replace "" with " in my output. 
+                // Include or edit it as you wish.
+                outputGrid[x, y] = outputGrid[x, y].Replace("\"\"", "\"");
+            }
+        }
+
+        return outputGrid;
     }
+
+    // splits a CSV row 
+    static public string[] SplitCsvLine(string line)
+    {
+        return (from System.Text.RegularExpressions.Match m in System.Text.RegularExpressions.Regex.Matches(line,
+        @"(((?<x>(?=[,\r\n]+))|""(?<x>([^""]|"""")+)""|(?<x>[^,\r\n]+)),?)",
+        System.Text.RegularExpressions.RegexOptions.ExplicitCapture)
+                select m.Groups[1].Value).ToArray();
+    }
+
+    void BuildData(string [,] txt){
+        Instance.convoData = new List<List<RadioData>>();
+        int initialID = int.Parse(txt[0, 1]);
+        List<RadioData> thisConvo = new List<RadioData>();
+
+        for (int y = 1; y < txt.GetLength(1); y++){
+            if(txt[0,y].Length < 1){
+                //New convo
+                Instance.convoData.Add(thisConvo);
+                thisConvo = new List<RadioData>();
+                initialID = int.Parse(txt[0, y+1]);
+                continue;
+            }
+            int id = int.Parse(txt[0, y]);
+
+            string question = txt[1, y];
+            string[] answer = new string[]{ txt[2, y], txt[3, y] };
+            bool onhold = txt[4, y] == "ALLOWED";
+            bool hangup = txt[5, y] == "ALLOWED";
+            int[] referral = new int[] { -2, -2 };
+            Debug.Log(txt[6, y]);
+            string[] refStr = txt[6, y].Split(',');
+
+            Debug.Log("line: " + y + " is good");
+            for (int i = 0; i < refStr.Length; i++){
+                int reff = -3;
+                int.TryParse(refStr[i], out reff);
+                reff -= initialID;
+                referral[i] = reff;
+            }
+
+            thisConvo.Add(new RadioData(id,question,answer,onhold,hangup,referral));
+        }
+        Instance.convoData.Add(thisConvo);
+    }
+
      
 }

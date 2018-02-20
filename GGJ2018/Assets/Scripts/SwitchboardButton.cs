@@ -28,8 +28,9 @@ public class SwitchboardButton : MonoBehaviour {
     }
     public void Answer()
     {
-        if (state > CallState.NONE)
+        if (state > CallState.NONE && !ConversationManager.Instance.HasCall)
         {
+            FunManager.AddFun( 2.0f );
             state = CallState.ANSWERED;
             spriteRenderer.sprite = normal;
             spriteRenderer.color = new Color(114f / 255f, 1f, 197f / 255f, 1f);
@@ -49,6 +50,7 @@ public class SwitchboardButton : MonoBehaviour {
         spriteRenderer.sprite = normal;
         state = CallState.NORMAL;
         startTime = Time.time;
+        Notification.ShowNotification(Camera.main.WorldToViewportPoint(transform.position), 2.5f);
     }
     public void HangUp()
     {

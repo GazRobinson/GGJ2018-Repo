@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ConversationManager : MonoBehaviour {
     public static ConversationManager Instance;
 
-    public GameObject usrMsg, playerMsg;
+    public GameObject usrMsg, playerMsg, systemMsg;
 
     public float margin = 32f;
 
@@ -20,9 +20,13 @@ public class ConversationManager : MonoBehaviour {
 
     public List<RadioData> currentConversation;
 
+    public bool HasCall {
+        get { return currentConversation == null; }
+    }
+
     public void AddMessage(string message, bool player)
     {
-        GameObject newMessage = GameObject.Instantiate(player? playerMsg : usrMsg, window, false);
+        GameObject newMessage = Instantiate(player? playerMsg : usrMsg, window, false);
         msgList.Add(newMessage.GetComponent<RectTransform>());
         newMessage.transform.GetChild(0).GetComponent<Text>().text = message.ToUpper();
         RectTransform rectT = newMessage.GetComponent<RectTransform>();
@@ -31,7 +35,13 @@ public class ConversationManager : MonoBehaviour {
         rectT.sizeDelta = size;
         Sort();
     }
-    
+    public void AddSystemMessage(string message){
+        GameObject newMessage = Instantiate(systemMsg, window, false);
+        msgList.Add(newMessage.GetComponent<RectTransform>());
+        newMessage.transform.GetChild(0).GetComponent<Text>().text = message.ToUpper();
+        RectTransform rectT = newMessage.GetComponent<RectTransform>();
+        Sort();
+    }
     public void StartConvo(List<RadioData> newConvo)
     {
         currentConversation = newConvo;
@@ -43,19 +53,21 @@ public class ConversationManager : MonoBehaviour {
         int referral = currentConversation[currentStep].Referral[answer];
         if (referral > 0) {
             currentStep = referral;
-            DoConvoStep(currentStep);
+            //DoConvoStep(currentStep);
+            StartCoroutine( WaitForResponse() );
         }
         else
         {
             //END CONVO
-            AddMessage("They hung up", false); Cleanup();
+            AddSystemMessage("Caller disconnected");
+            Cleanup();
         }
     }
     public void HangUp()
     {
         currentConversation = null;
         currentStep = 0;
-        AddMessage("You hung up", true);
+        AddSystemMessage("You hung up");
         Cleanup();
     }
     void Cleanup()
@@ -67,6 +79,15 @@ public class ConversationManager : MonoBehaviour {
     public void Hold()
     {
 
+    }
+    private IEnumerator WaitForResponse()
+    {
+        yield return StartCoroutine(Wait());
+
+        DoConvoStep(currentStep);
+    }
+    private IEnumerator Wait(){
+        yield return new WaitForSeconds(Random.Range(1f, 4f));
     }
     void DoConvoStep(int step)
     {

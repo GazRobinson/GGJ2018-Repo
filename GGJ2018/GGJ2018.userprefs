@@ -1,10 +1,14 @@
 ﻿<Properties StartupConfiguration="{34F37DCD-085B-68A8-DE6C-7DF8C7636D4C}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ChoiceController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/FunManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/ControllerManager.cs" Line="148" Column="51" />
-      <File FileName="Assets/SFXBoy.cs" Line="14" Column="43" />
-      <File FileName="Assets/SwitchboardController.cs" Line="50" Column="31" />
-      <File FileName="Assets/ChoiceController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ControllerManager.cs" Line="35" Column="10" />
+      <File FileName="Assets/Scripts/CSVReader.cs" Line="188" Column="25" />
+      <File FileName="Assets/Scripts/Funometer.cs" Line="24" Column="6" />
+      <File FileName="Assets/Scripts/Notification.cs" Line="18" Column="63" />
+      <File FileName="Assets/Scripts/SwitchboardController.cs" Line="82" Column="37" />
+      <File FileName="Assets/Scripts/SwitchboardButton.cs" Line="52" Column="45" />
+      <File FileName="Assets/Scripts/ConversationManager.cs" Line="90" Column="33" />
+      <File FileName="Assets/Scripts/FunManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -13,4 +17,5 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.GGJ2018 PreferredExecutionTarget="Unity.Editor" />
 </Properties>

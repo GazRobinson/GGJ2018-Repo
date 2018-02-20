@@ -32,7 +32,7 @@ public class ChoiceController : MonoBehaviour {
         {
             answer1.gameObject.SetActive(true);
             answer1.transform.GetChild(0).GetComponent<Text>().text = answerA.ToUpper();
-    }
+        }
         else
         {
             if (referral.Length > 0 && referral[0] >0)
@@ -57,6 +57,10 @@ public class ChoiceController : MonoBehaviour {
         HangUp.GetComponent<Image>().color = HangUp ? Color.white : Color.grey;
         Hold.GetComponent<Image>().color = hold ? Color.white : Color.grey;
         ChoiceContainer.SetActive(true);
+    }
+    public void HideAnswers(){
+        answer1.gameObject.SetActive(false);
+        answer2.gameObject.SetActive(false);
     }
     public void Hide()
     {
@@ -90,6 +94,7 @@ public class ChoiceController : MonoBehaviour {
                     break;
             }
         }
+        HideAnswers();
     }
     
 }
